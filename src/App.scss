@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap");
+
+$color-text: #717171;
+
+@mixin with-shadow {
+  border: solid thin #eeeeee;
+  box-shadow: 0 15px 35px 0 rgba(0, 0, 0, 0.1);
+}
+
+@mixin with-smaller-shadow {
+  border: solid thin #eeeeee;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+body,
+html,
+input,
+button {
+  font-family: "Roboto", sans-serif;
+  color: $color-text;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todo-app {
+  padding: 1rem;
+  width: 300px;
+  border-radius: 4px;
+  @include with-shadow;
+
+  h1 {
+    font-weight: lighter;
+  }
+}
+
+.todo-add {
+  position: relative;
+  margin-bottom: 1rem;
+
+  form {
+    width: 100%;
+    display: flex;
+    border-radius: 4px;
+    overflow: hidden;
+    height: 50px;
+    @include with-shadow();
+
+    input {
+      flex: 1;
+      height: 100%;
+      outline: none;
+      padding: 1rem;
+      border: none;
+      box-sizing: border-box;
+    }
+
+    button {
+      height: 100%;
+      background-color: white;
+      padding: 0.5rem 1rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #eee;
+      }
+    }
+  }
+
+  div.suggestions-wrapper {
+    position: absolute;
+    top: 50px;
+    background-color: white;
+    border: solid thin #eeeeee;
+    width: 100%;
+    z-index: 999;
+    padding: 1rem;
+    box-sizing: border-box;
+    @include with-shadow();
+  }
+
+  ul.suggestions {
+    &::before {
+      content: "SUGGESTIONS";
+      font-size: 10pt;
+      position: sticky;
+      top: -1rem;
+      width: 100%;
+      margin-left: -1rem;
+      display: block;
+      background-color: white;
+      padding: 1rem;
+    }
+
+    li {
+      border-radius: 4px;
+      padding: 1rem;
+      margin-bottom: 0.4rem;
+      @include with-smaller-shadow();
+    }
+  }
+}
+
+.todo-filters {
+  opacity: 0.3;
+  padding: 1rem;
+  background-color: #eee;
+}
+
+.todo-list {
+  &::before {
+    content: "PENDING ITEMS";
+    font-size: 10pt;
+    padding-top: 1rem;
+    display: block;
+  }
+
+  ul {
+    li {
+      border-radius: 4px;
+      padding: 1rem;
+      margin-bottom: 0.4rem;
+      @include with-smaller-shadow();
+
+      &:hover {
+        z-index: 10;
+      }
+    }
+  }
+}
+
+ul {
+  list-style: none;
+  max-height: calc(100vh - 400px);
+  overflow: auto;
+  margin: 0 -1rem;
+  padding: 1rem;
+}
+
+button {
+  font-weight: bold;
+  outline: none;
+  color: #f34;
+}
