@@ -86,6 +86,8 @@ button {
   }
 
   ul.suggestions {
+    max-height: calc(100vh - 500px);
+
     &::before {
       content: "SUGGESTIONS";
       font-size: 10pt;

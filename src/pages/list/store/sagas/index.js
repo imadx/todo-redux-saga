@@ -1,4 +1,4 @@
-import { takeLatest, call, put, delay } from 'redux-saga/effects';
+import { call, put, delay, take, race } from 'redux-saga/effects';
 import { fetchSuggestionsSucceeded } from '../actions';
 
 const getSuggestionsResponseForWord = async word => {
@@ -9,15 +9,21 @@ const getSuggestionsResponseForWord = async word => {
 	);
 };
 
-function* fetchSuggestions(action) {
+function* fetchSuggestions(word) {
 	yield delay(500);
 
-	const response = yield call(getSuggestionsResponseForWord, action.payload);
+	const response = yield call(getSuggestionsResponseForWord, word);
 	yield put(fetchSuggestionsSucceeded(response));
 }
 
 function* fetchSuggestionsSaga() {
-	yield takeLatest('FETCH_SUGGESTIONS', fetchSuggestions);
+	while (true) {
+		const { payload } = yield take('FETCH_SUGGESTIONS');
+		yield race({
+			task: call(fetchSuggestions, payload),
+			cancel: take('RESET_SUGGESTIONS')
+		});
+	}
 }
 
 export default fetchSuggestionsSaga;
